@@ -1,0 +1,1834 @@
+{
+  "seed": 20260727,
+  "data_provenance": {
+    "is_standin": true,
+    "seed": 20260727,
+    "generated_by": "src/data/generate_standins.py",
+    "caveats": [
+      "Feature-outcome relationships were generated from a linear logit over each dataset's own features. Logistic regression is therefore the true model, and will beat the tree ensembles here. On the real datasets that ordering will very likely reverse.",
+      "Model-versus-clinical-score comparisons are NOT meaningful on stand-in data: our models see the exact features the labels were generated from, while Framingham and FINDRISC do not. Report these comparisons only after swapping in the real CSVs.",
+      "Absolute accuracy figures are properties of this generator, not of the real datasets. The PIPELINE is what is being demonstrated."
+    ]
+  },
+  "protocol": {
+    "test_size": 0.2,
+    "cv": "RepeatedStratifiedKFold(5 folds x 5 repeats)",
+    "selection_metric": "average_precision",
+    "leakage_control": "all preprocessing inside the Pipeline, refitted per fold",
+    "imbalance_strategy": "class weighting (no SMOTE)"
+  },
+  "diseases": {
+    "heart": {
+      "display_name": "Heart Disease",
+      "source": "UCI Cleveland Heart Disease",
+      "n_rows": 303,
+      "positive_rate": 0.46864686468646866,
+      "variants": {
+        "full": {
+          "feature_set": "full",
+          "n_features": 13,
+          "features": [
+            "age",
+            "sex",
+            "systolic_bp",
+            "cholesterol_total",
+            "chest_pain_type",
+            "fasting_bs_high",
+            "resting_ecg",
+            "max_heart_rate",
+            "exercise_angina",
+            "st_depression",
+            "st_slope",
+            "major_vessels",
+            "thalassemia"
+          ],
+          "n_train": 242,
+          "n_test": 61,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.7778062633019155,
+                "std": 0.06526952018574957
+              },
+              "pr_auc": {
+                "mean": 0.7574005837698833,
+                "std": 0.08124527562726155
+              },
+              "recall": {
+                "mean": 0.7133596837944665,
+                "std": 0.10185131908657367
+              },
+              "f1": {
+                "mean": 0.7029494998792416,
+                "std": 0.06902746059220342
+              },
+              "accuracy": {
+                "mean": 0.7207312925170067,
+                "std": 0.059927286565765354
+              },
+              "cv_seconds": 0.68
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.7119553663727577,
+                "std": 0.0537294741718545
+              },
+              "pr_auc": {
+                "mean": 0.6882032600902822,
+                "std": 0.07491577447001291
+              },
+              "recall": {
+                "mean": 0.6091699604743083,
+                "std": 0.07238335938809085
+              },
+              "f1": {
+                "mean": 0.6291627848099552,
+                "std": 0.053124838129152765
+              },
+              "accuracy": {
+                "mean": 0.6644557823129253,
+                "std": 0.056881844359049
+              },
+              "cv_seconds": 16.53
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.6830151413803587,
+                "std": 0.06447362431422192
+              },
+              "pr_auc": {
+                "mean": 0.6626180068692988,
+                "std": 0.08141303147320561
+              },
+              "recall": {
+                "mean": 0.6270355731225297,
+                "std": 0.08498946544249562
+              },
+              "f1": {
+                "mean": 0.6198669051523873,
+                "std": 0.059703355813223745
+              },
+              "accuracy": {
+                "mean": 0.6422278911564625,
+                "std": 0.05940003165378091
+              },
+              "cv_seconds": 1.63
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.19795092813736723
+              },
+              "isotonic": {
+                "brier": 0.20144969035923826
+              }
+            },
+            "before": {
+              "brier": 0.19990394725088292,
+              "reliability": {
+                "mean_predicted": [
+                  0.0763,
+                  0.1769,
+                  0.2785,
+                  0.4404,
+                  0.5764,
+                  0.6871,
+                  0.8158,
+                  0.9217
+                ],
+                "fraction_positive": [
+                  0.1935,
+                  0.1333,
+                  0.4,
+                  0.2333,
+                  0.5667,
+                  0.7,
+                  0.7,
+                  0.8065
+                ],
+                "ece": 0.0931
+              }
+            },
+            "after": {
+              "brier": 0.19795092813736723,
+              "reliability": {
+                "mean_predicted": [
+                  0.1684,
+                  0.2575,
+                  0.3263,
+                  0.4271,
+                  0.5086,
+                  0.5775,
+                  0.6755,
+                  0.7909
+                ],
+                "fraction_positive": [
+                  0.2258,
+                  0.1333,
+                  0.3333,
+                  0.2667,
+                  0.5667,
+                  0.6333,
+                  0.7667,
+                  0.8065
+                ],
+                "ece": 0.0709
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.7377049180327869,
+            "precision": 0.8095238095238095,
+            "recall": 0.5862068965517241,
+            "f1": 0.68,
+            "roc_auc": 0.8620689655172413,
+            "pr_auc": 0.8395639722137835,
+            "brier": 0.1724195887225005,
+            "reliability": {
+              "mean_predicted": [
+                0.1805,
+                0.2897,
+                0.3556,
+                0.4346,
+                0.5653,
+                0.7574
+              ],
+              "fraction_positive": [
+                0.0,
+                0.2,
+                0.6,
+                0.4444,
+                0.7,
+                0.9091
+              ],
+              "ece": 0.1609
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.3383,
+                "recall": 0.9310344827586207,
+                "precision": 0.7105263157894737,
+                "f1": 0.8059701492537313,
+                "flagged_rate": 0.6229508196721312
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.3383,
+                "recall": 0.9310344827586207,
+                "precision": 0.7105263157894737,
+                "f1": 0.8059701492537313,
+                "flagged_rate": 0.6229508196721312
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.5862068965517241,
+                "precision": 0.8095238095238095,
+                "f1": 0.68,
+                "flagged_rate": 0.3442622950819672
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.7540983606557377,
+            "precision": 0.8181818181818182,
+            "recall": 0.6206896551724138,
+            "f1": 0.7058823529411765,
+            "roc_auc": 0.8631465517241379,
+            "pr_auc": 0.8407639446317758,
+            "brier": 0.15966686708053088
+          },
+          "clinical_baseline": {
+            "name": "Framingham General CVD (BMI-based)",
+            "roc_auc": 0.5765086206896552,
+            "pr_auc": 0.583764475067842,
+            "brier": 0.3606482639927394,
+            "item_report": {
+              "score_name": "Framingham General CVD (BMI-based)",
+              "required": [
+                "age",
+                "sex",
+                "systolic_bp",
+                "bmi",
+                "smoking",
+                "diabetes_status",
+                "bp_treated"
+              ],
+              "available": [
+                "age",
+                "sex",
+                "systolic_bp",
+                "diabetes_status"
+              ],
+              "substituted": {
+                "bmi": "constant 27.0 (not collected by source; score cannot discriminate on this axis)",
+                "smoking": "constant 'never' (not collected by source)",
+                "diabetes_status": "binary fbs flag (>120 mg/dL)",
+                "bp_treated": "assumed untreated (treatment status not recorded in any source dataset)"
+              },
+              "unavailable": [],
+              "completeness": 0.571
+            },
+            "caveat": "Discrimination (AUC) is a fair comparison. Absolute calibration is not: the published score targets a different outcome definition and time horizon than the dataset label."
+          }
+        },
+        "core": {
+          "feature_set": "core",
+          "n_features": 3,
+          "features": [
+            "age",
+            "sex",
+            "systolic_bp"
+          ],
+          "n_train": 242,
+          "n_test": 61,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.5639808452417148,
+                "std": 0.07869952429700124
+              },
+              "pr_auc": {
+                "mean": 0.5506621991482147,
+                "std": 0.07769155010213144
+              },
+              "recall": {
+                "mean": 0.532094861660079,
+                "std": 0.12201508685322623
+              },
+              "f1": {
+                "mean": 0.5082009451670837,
+                "std": 0.08813920326303239
+              },
+              "accuracy": {
+                "mean": 0.529030612244898,
+                "std": 0.05850544313000945
+              },
+              "cv_seconds": 0.59
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.45015050167224074,
+                "std": 0.06014390856636706
+              },
+              "pr_auc": {
+                "mean": 0.46598246055111825,
+                "std": 0.040224381156537516
+              },
+              "recall": {
+                "mean": 0.4211067193675889,
+                "std": 0.09623498660880268
+              },
+              "f1": {
+                "mean": 0.42398447105610537,
+                "std": 0.07850480394009644
+              },
+              "accuracy": {
+                "mean": 0.47278911564625853,
+                "std": 0.05596646536129283
+              },
+              "cv_seconds": 16.41
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.48841027667984194,
+                "std": 0.059208792396795655
+              },
+              "pr_auc": {
+                "mean": 0.48424670732248,
+                "std": 0.05096983065410789
+              },
+              "recall": {
+                "mean": 0.4777865612648221,
+                "std": 0.1061738068058054
+              },
+              "f1": {
+                "mean": 0.4633573405322726,
+                "std": 0.07709239341987754
+              },
+              "accuracy": {
+                "mean": 0.4925510204081632,
+                "std": 0.054781723079699814
+              },
+              "cv_seconds": 1.48
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.2503944785677856
+              },
+              "isotonic": {
+                "brier": 0.25518590205314357
+              }
+            },
+            "before": {
+              "brier": 0.24966949788654477,
+              "reliability": {
+                "mean_predicted": [
+                  0.369,
+                  0.4246,
+                  0.4612,
+                  0.4896,
+                  0.5174,
+                  0.5457,
+                  0.5808,
+                  0.6399
+                ],
+                "fraction_positive": [
+                  0.3871,
+                  0.4333,
+                  0.5,
+                  0.3667,
+                  0.5,
+                  0.4667,
+                  0.6,
+                  0.4839
+                ],
+                "ece": 0.0578
+              }
+            },
+            "after": {
+              "brier": 0.2503944785677856,
+              "reliability": {
+                "mean_predicted": [
+                  0.4057,
+                  0.4414,
+                  0.4568,
+                  0.4728,
+                  0.4821,
+                  0.4895,
+                  0.5001,
+                  0.5485
+                ],
+                "fraction_positive": [
+                  0.4516,
+                  0.5,
+                  0.5,
+                  0.3,
+                  0.5333,
+                  0.4333,
+                  0.5,
+                  0.5161
+                ],
+                "ece": 0.0574
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.47540983606557374,
+            "precision": 0.44,
+            "recall": 0.3793103448275862,
+            "f1": 0.4074074074074074,
+            "roc_auc": 0.4536637931034483,
+            "pr_auc": 0.46143771450653276,
+            "brier": 0.25318969485340925,
+            "reliability": {
+              "mean_predicted": [
+                0.415,
+                0.454,
+                0.4739,
+                0.4976,
+                0.5114,
+                0.5324
+              ],
+              "fraction_positive": [
+                0.4545,
+                0.6,
+                0.5,
+                0.6,
+                0.3,
+                0.4
+              ],
+              "ece": 0.0969
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.4129,
+                "recall": 1.0,
+                "precision": 0.5087719298245614,
+                "f1": 0.6744186046511628,
+                "flagged_rate": 0.9344262295081968
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.4178,
+                "recall": 0.9310344827586207,
+                "precision": 0.4909090909090909,
+                "f1": 0.6428571428571429,
+                "flagged_rate": 0.9016393442622951
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.41379310344827586,
+                "precision": 0.4444444444444444,
+                "f1": 0.42857142857142855,
+                "flagged_rate": 0.4426229508196721
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.4918032786885246,
+            "precision": 0.4722222222222222,
+            "recall": 0.5862068965517241,
+            "f1": 0.5230769230769231,
+            "roc_auc": 0.5226293103448275,
+            "pr_auc": 0.5039060737920842,
+            "brier": 0.25138416566281196
+          },
+          "clinical_baseline": null
+        }
+      },
+      "core_only_auc_cost": 0.40840517241379304
+    },
+    "diabetes": {
+      "display_name": "Diabetes",
+      "source": "Pima Indians Diabetes (NIDDK)",
+      "n_rows": 768,
+      "positive_rate": 0.33203125,
+      "variants": {
+        "full": {
+          "feature_set": "full",
+          "n_features": 8,
+          "features": [
+            "age",
+            "glucose",
+            "diastolic_bp",
+            "skin_thickness",
+            "insulin",
+            "bmi",
+            "pregnancies",
+            "diabetes_pedigree"
+          ],
+          "n_train": 614,
+          "n_test": 154,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.70122248661511,
+                "std": 0.029534120402111334
+              },
+              "pr_auc": {
+                "mean": 0.5416930013321564,
+                "std": 0.043975352105802196
+              },
+              "recall": {
+                "mean": 0.6520975609756097,
+                "std": 0.05661034982507239
+              },
+              "f1": {
+                "mean": 0.5594129234379585,
+                "std": 0.03036747365109056
+              },
+              "accuracy": {
+                "mean": 0.6592642942822871,
+                "std": 0.027919902241776626
+              },
+              "cv_seconds": 0.46
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.6907828673408686,
+                "std": 0.028752265325504046
+              },
+              "pr_auc": {
+                "mean": 0.48919477308065645,
+                "std": 0.04050430505676463
+              },
+              "recall": {
+                "mean": 0.31773170731707323,
+                "std": 0.05522301333380564
+              },
+              "f1": {
+                "mean": 0.3812120980211502,
+                "std": 0.04669561565525366
+              },
+              "accuracy": {
+                "mean": 0.6595761695321872,
+                "std": 0.028429987559915267
+              },
+              "cv_seconds": 20.45
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.6796790600832838,
+                "std": 0.028742890005110603
+              },
+              "pr_auc": {
+                "mean": 0.4787463664925983,
+                "std": 0.04271172866059987
+              },
+              "recall": {
+                "mean": 0.4924634146341464,
+                "std": 0.06827370816537508
+              },
+              "f1": {
+                "mean": 0.4861669975657024,
+                "std": 0.03957066935242785
+              },
+              "accuracy": {
+                "mean": 0.656329468212715,
+                "std": 0.027019600189072245
+              },
+              "cv_seconds": 1.82
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.1985344866649641
+              },
+              "isotonic": {
+                "brier": 0.20081909362178854
+              }
+            },
+            "before": {
+              "brier": 0.2205697487216319,
+              "reliability": {
+                "mean_predicted": [
+                  0.1798,
+                  0.291,
+                  0.3654,
+                  0.429,
+                  0.5015,
+                  0.5807,
+                  0.6654,
+                  0.7845
+                ],
+                "fraction_positive": [
+                  0.1429,
+                  0.1558,
+                  0.2237,
+                  0.2597,
+                  0.3896,
+                  0.4342,
+                  0.4545,
+                  0.5974
+                ],
+                "ece": 0.1424
+              }
+            },
+            "after": {
+              "brier": 0.1985344866649641,
+              "reliability": {
+                "mean_predicted": [
+                  0.1254,
+                  0.194,
+                  0.2423,
+                  0.2854,
+                  0.3401,
+                  0.4029,
+                  0.4793,
+                  0.607
+                ],
+                "fraction_positive": [
+                  0.1429,
+                  0.1558,
+                  0.2237,
+                  0.2597,
+                  0.4156,
+                  0.3947,
+                  0.4805,
+                  0.5844
+                ],
+                "ece": 0.026
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.7402597402597403,
+            "precision": 0.7619047619047619,
+            "recall": 0.3137254901960784,
+            "f1": 0.4444444444444444,
+            "roc_auc": 0.7719398438987246,
+            "pr_auc": 0.6832364025244106,
+            "brier": 0.17534765568125485,
+            "reliability": {
+              "mean_predicted": [
+                0.1417,
+                0.227,
+                0.2899,
+                0.342,
+                0.4269,
+                0.5966
+              ],
+              "fraction_positive": [
+                0.0769,
+                0.12,
+                0.3846,
+                0.2692,
+                0.32,
+                0.8077
+              ],
+              "ece": 0.1096
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.4228,
+                "recall": 0.5294117647058824,
+                "precision": 0.6923076923076923,
+                "f1": 0.6,
+                "flagged_rate": 0.2532467532467532
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.2686,
+                "recall": 0.9019607843137255,
+                "precision": 0.44660194174757284,
+                "f1": 0.5974025974025974,
+                "flagged_rate": 0.6688311688311688
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.3333333333333333,
+                "precision": 0.7727272727272727,
+                "f1": 0.4657534246575342,
+                "flagged_rate": 0.14285714285714285
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.6818181818181818,
+            "precision": 0.5151515151515151,
+            "recall": 0.6666666666666666,
+            "f1": 0.5811965811965812,
+            "roc_auc": 0.7713687416714259,
+            "pr_auc": 0.6818439651431958,
+            "brier": 0.195790796545753
+          },
+          "clinical_baseline": {
+            "name": "FINDRISC (adapted)",
+            "roc_auc": 0.7345326480106606,
+            "pr_auc": 0.5534987887929064,
+            "brier": 0.2664623376623377,
+            "item_report": {
+              "score_name": "FINDRISC (adapted)",
+              "required": [
+                "age",
+                "bmi",
+                "waist_circumference",
+                "physical_activity",
+                "fruit_veg_daily",
+                "bp_medication",
+                "high_glucose_history",
+                "family_history"
+              ],
+              "available": [
+                "age",
+                "bmi",
+                "high_glucose_history"
+              ],
+              "substituted": {
+                "bp_medication": "diastolic BP >= 90 mmHg used as proxy",
+                "high_glucose_history": "2-hour plasma glucose >= 140 mg/dL",
+                "family_history": "DiabetesPedigreeFunction bands (<0.30 / <0.60 / >=0.60)"
+              },
+              "unavailable": [
+                "waist_circumference",
+                "physical_activity",
+                "fruit_veg_daily"
+              ],
+              "completeness": 0.375
+            },
+            "caveat": "Discrimination (AUC) is a fair comparison. Absolute calibration is not: the published score targets a different outcome definition and time horizon than the dataset label."
+          }
+        },
+        "core": {
+          "feature_set": "core",
+          "n_features": 3,
+          "features": [
+            "age",
+            "bmi",
+            "glucose"
+          ],
+          "n_train": 614,
+          "n_test": 154,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.7073277810826889,
+                "std": 0.029206128021585672
+              },
+              "pr_auc": {
+                "mean": 0.5500164604532675,
+                "std": 0.04252897585652247
+              },
+              "recall": {
+                "mean": 0.6472439024390243,
+                "std": 0.0628689277950085
+              },
+              "f1": {
+                "mean": 0.5577445997682402,
+                "std": 0.03762111022264427
+              },
+              "accuracy": {
+                "mean": 0.6596001599360255,
+                "std": 0.03216841072648069
+              },
+              "cv_seconds": 0.43
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.6668078524687685,
+                "std": 0.03445462366623599
+              },
+              "pr_auc": {
+                "mean": 0.4785536691193913,
+                "std": 0.0456699086197433
+              },
+              "recall": {
+                "mean": 0.39412195121951227,
+                "std": 0.07428498751041802
+              },
+              "f1": {
+                "mean": 0.4271890789630345,
+                "std": 0.06105213647430965
+              },
+              "accuracy": {
+                "mean": 0.6524216979874717,
+                "std": 0.030806524610647295
+              },
+              "cv_seconds": 19.28
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.6535841760856633,
+                "std": 0.04170457892383935
+              },
+              "pr_auc": {
+                "mean": 0.4706642474305242,
+                "std": 0.052829785828514775
+              },
+              "recall": {
+                "mean": 0.5235121951219512,
+                "std": 0.079572975422618
+              },
+              "f1": {
+                "mean": 0.4890295066962711,
+                "std": 0.05082446838684859
+              },
+              "accuracy": {
+                "mean": 0.6387471677995468,
+                "std": 0.03666969866058173
+              },
+              "cv_seconds": 1.48
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.1952583549071221
+              },
+              "isotonic": {
+                "brier": 0.19843800301732042
+              }
+            },
+            "before": {
+              "brier": 0.21675035598460315,
+              "reliability": {
+                "mean_predicted": [
+                  0.1937,
+                  0.3069,
+                  0.368,
+                  0.4357,
+                  0.5024,
+                  0.5737,
+                  0.6546,
+                  0.7828
+                ],
+                "fraction_positive": [
+                  0.0649,
+                  0.1948,
+                  0.1842,
+                  0.3117,
+                  0.3896,
+                  0.4211,
+                  0.4805,
+                  0.6104
+                ],
+                "ece": 0.145
+              }
+            },
+            "after": {
+              "brier": 0.1952583549071221,
+              "reliability": {
+                "mean_predicted": [
+                  0.1186,
+                  0.1894,
+                  0.2318,
+                  0.2831,
+                  0.3377,
+                  0.4015,
+                  0.4822,
+                  0.6299
+                ],
+                "fraction_positive": [
+                  0.0649,
+                  0.1818,
+                  0.2105,
+                  0.3117,
+                  0.3896,
+                  0.4079,
+                  0.4935,
+                  0.5974
+                ],
+                "ece": 0.0267
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.7662337662337663,
+            "precision": 0.8260869565217391,
+            "recall": 0.37254901960784315,
+            "f1": 0.5135135135135135,
+            "roc_auc": 0.762611840852846,
+            "pr_auc": 0.6651042799195352,
+            "brier": 0.17775645651029798,
+            "reliability": {
+              "mean_predicted": [
+                0.1222,
+                0.2155,
+                0.2783,
+                0.3426,
+                0.4343,
+                0.6004
+              ],
+              "fraction_positive": [
+                0.0769,
+                0.1154,
+                0.44,
+                0.2308,
+                0.36,
+                0.7692
+              ],
+              "ece": 0.1201
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.2438,
+                "recall": 0.9215686274509803,
+                "precision": 0.4519230769230769,
+                "f1": 0.6064516129032258,
+                "flagged_rate": 0.6753246753246753
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.2438,
+                "recall": 0.9215686274509803,
+                "precision": 0.4519230769230769,
+                "f1": 0.6064516129032258,
+                "flagged_rate": 0.6753246753246753
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.37254901960784315,
+                "precision": 0.76,
+                "f1": 0.5,
+                "flagged_rate": 0.16233766233766234
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.6688311688311688,
+            "precision": 0.5,
+            "recall": 0.6470588235294118,
+            "f1": 0.5641025641025641,
+            "roc_auc": 0.7618503712164477,
+            "pr_auc": 0.6643622580000039,
+            "brier": 0.1988392166270061
+          },
+          "clinical_baseline": null
+        }
+      },
+      "core_only_auc_cost": 0.009328003045878663
+    },
+    "kidney": {
+      "display_name": "Chronic Kidney Disease",
+      "source": "UCI Chronic Kidney Disease",
+      "n_rows": 400,
+      "positive_rate": 0.625,
+      "variants": {
+        "full": {
+          "feature_set": "full",
+          "n_features": 24,
+          "features": [
+            "age",
+            "diastolic_bp",
+            "glucose",
+            "serum_creatinine",
+            "blood_urea",
+            "hemoglobin",
+            "sodium",
+            "potassium",
+            "packed_cell_volume",
+            "white_cell_count",
+            "red_cell_count",
+            "specific_gravity",
+            "albumin",
+            "sugar",
+            "red_blood_cells",
+            "pus_cell",
+            "pus_cell_clumps",
+            "bacteria",
+            "hypertension",
+            "diabetes_mellitus",
+            "coronary_artery_disease",
+            "appetite",
+            "pedal_edema",
+            "anemia"
+          ],
+          "n_train": 320,
+          "n_test": 80,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.7774583333333334,
+                "std": 0.041859843857541754
+              },
+              "pr_auc": {
+                "mean": 0.8549147900850097,
+                "std": 0.036951644101717605
+              },
+              "recall": {
+                "mean": 0.6880000000000002,
+                "std": 0.07553806987208503
+              },
+              "f1": {
+                "mean": 0.7359191127181665,
+                "std": 0.04551704743243219
+              },
+              "accuracy": {
+                "mean": 0.69375,
+                "std": 0.046351240544347895
+              },
+              "cv_seconds": 0.79
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.7546250000000001,
+                "std": 0.05002523668665202
+              },
+              "pr_auc": {
+                "mean": 0.8369801201398991,
+                "std": 0.04161093823432889
+              },
+              "recall": {
+                "mean": 0.848,
+                "std": 0.052402290026295616
+              },
+              "f1": {
+                "mean": 0.7750833120172347,
+                "std": 0.03305628763579865
+              },
+              "accuracy": {
+                "mean": 0.6925,
+                "std": 0.04692081094780865
+              },
+              "cv_seconds": 17.56
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.7598333333333334,
+                "std": 0.04398160916160802
+              },
+              "pr_auc": {
+                "mean": 0.8442388347210497,
+                "std": 0.03471199820675882
+              },
+              "recall": {
+                "mean": 0.7660000000000001,
+                "std": 0.07310266752998827
+              },
+              "f1": {
+                "mean": 0.7582282659061511,
+                "std": 0.04067706700049605
+              },
+              "accuracy": {
+                "mean": 0.69625,
+                "std": 0.04720301897124802
+              },
+              "cv_seconds": 2.01
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.18488156694976632
+              },
+              "isotonic": {
+                "brier": 0.18526703088625035
+              }
+            },
+            "before": {
+              "brier": 0.19315428148594554,
+              "reliability": {
+                "mean_predicted": [
+                  0.0917,
+                  0.2434,
+                  0.3494,
+                  0.4668,
+                  0.6242,
+                  0.7639,
+                  0.8627,
+                  0.9607
+                ],
+                "fraction_positive": [
+                  0.225,
+                  0.4,
+                  0.6,
+                  0.525,
+                  0.6,
+                  0.85,
+                  0.85,
+                  0.95
+                ],
+                "ece": 0.0915
+              }
+            },
+            "after": {
+              "brier": 0.18488156694976632,
+              "reliability": {
+                "mean_predicted": [
+                  0.2714,
+                  0.427,
+                  0.5157,
+                  0.5902,
+                  0.6756,
+                  0.7576,
+                  0.8243,
+                  0.9124
+                ],
+                "fraction_positive": [
+                  0.275,
+                  0.35,
+                  0.575,
+                  0.55,
+                  0.625,
+                  0.8,
+                  0.875,
+                  0.95
+                ],
+                "ece": 0.0452
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.65,
+            "precision": 0.7115384615384616,
+            "recall": 0.74,
+            "f1": 0.7254901960784313,
+            "roc_auc": 0.7233333333333333,
+            "pr_auc": 0.842213450045808,
+            "brier": 0.20661506813651503,
+            "reliability": {
+              "mean_predicted": [
+                0.2853,
+                0.4238,
+                0.5839,
+                0.7262,
+                0.8487,
+                0.9321
+              ],
+              "fraction_positive": [
+                0.5,
+                0.3846,
+                0.5385,
+                0.5385,
+                0.7692,
+                1.0
+              ],
+              "ece": 0.1066
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.2288,
+                "recall": 1.0,
+                "precision": 0.6493506493506493,
+                "f1": 0.7874015748031497,
+                "flagged_rate": 0.9625
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.3333,
+                "recall": 0.9,
+                "precision": 0.6521739130434783,
+                "f1": 0.7563025210084033,
+                "flagged_rate": 0.8625
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.76,
+                "precision": 0.7169811320754716,
+                "f1": 0.7378640776699029,
+                "flagged_rate": 0.6625
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.6625,
+            "precision": 0.7446808510638298,
+            "recall": 0.7,
+            "f1": 0.7216494845360825,
+            "roc_auc": 0.7293333333333333,
+            "pr_auc": 0.844306527520899,
+            "brier": 0.2233319495601814
+          },
+          "clinical_baseline": null
+        },
+        "core": {
+          "feature_set": "core",
+          "n_features": 2,
+          "features": [
+            "age",
+            "glucose"
+          ],
+          "n_train": 320,
+          "n_test": 80,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.5736666666666667,
+                "std": 0.06248803357665992
+              },
+              "pr_auc": {
+                "mean": 0.6938053325798583,
+                "std": 0.052500248456494675
+              },
+              "recall": {
+                "mean": 0.563,
+                "std": 0.06712674578735364
+              },
+              "f1": {
+                "mean": 0.6093412464538343,
+                "std": 0.05232342416408326
+              },
+              "accuracy": {
+                "mean": 0.55125,
+                "std": 0.05312867634338352
+              },
+              "cv_seconds": 0.41
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.4779583333333333,
+                "std": 0.06608941491561936
+              },
+              "pr_auc": {
+                "mean": 0.6232685211806052,
+                "std": 0.046888692427249135
+              },
+              "recall": {
+                "mean": 0.649,
+                "std": 0.08788629017087932
+              },
+              "f1": {
+                "mean": 0.6305063938045173,
+                "std": 0.0648811993624361
+              },
+              "accuracy": {
+                "mean": 0.52875,
+                "std": 0.06799011876736206
+              },
+              "cv_seconds": 16.37
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.5046875,
+                "std": 0.0595602009291626
+              },
+              "pr_auc": {
+                "mean": 0.6500182428067877,
+                "std": 0.04466051487775817
+              },
+              "recall": {
+                "mean": 0.5830000000000001,
+                "std": 0.07801281945936835
+              },
+              "f1": {
+                "mean": 0.6023922471200652,
+                "std": 0.06230057715034933
+              },
+              "accuracy": {
+                "mean": 0.5225,
+                "std": 0.063596629234575
+              },
+              "cv_seconds": 1.24
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.23386785428105233
+              },
+              "isotonic": {
+                "brier": 0.24054560249720022
+              }
+            },
+            "before": {
+              "brier": 0.2502064032063322,
+              "reliability": {
+                "mean_predicted": [
+                  0.3555,
+                  0.4308,
+                  0.4648,
+                  0.4909,
+                  0.5154,
+                  0.5358,
+                  0.5729,
+                  0.6519
+                ],
+                "fraction_positive": [
+                  0.55,
+                  0.525,
+                  0.675,
+                  0.6,
+                  0.625,
+                  0.625,
+                  0.7561,
+                  0.641
+                ],
+                "ece": 0.1269
+              }
+            },
+            "after": {
+              "brier": 0.23386785428105233,
+              "reliability": {
+                "mean_predicted": [
+                  0.5052,
+                  0.5737,
+                  0.6014,
+                  0.6226,
+                  0.6375,
+                  0.6502,
+                  0.6766,
+                  0.7265
+                ],
+                "fraction_positive": [
+                  0.55,
+                  0.525,
+                  0.65,
+                  0.6,
+                  0.675,
+                  0.65,
+                  0.675,
+                  0.675
+                ],
+                "ece": 0.0319
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.625,
+            "precision": 0.625,
+            "recall": 1.0,
+            "f1": 0.7692307692307693,
+            "roc_auc": 0.5153333333333333,
+            "pr_auc": 0.6712764530560006,
+            "brier": 0.2352908299792306,
+            "reliability": {
+              "mean_predicted": [
+                0.5374,
+                0.5763,
+                0.6123,
+                0.6379,
+                0.6584,
+                0.6944
+              ],
+              "fraction_positive": [
+                0.5714,
+                0.6923,
+                0.5385,
+                0.6923,
+                0.6154,
+                0.6429
+              ],
+              "ece": 0.0616
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.01,
+                "recall": 1.0,
+                "precision": 0.625,
+                "f1": 0.7692307692307693,
+                "flagged_rate": 1.0
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.5422,
+                "recall": 0.92,
+                "precision": 0.6388888888888888,
+                "f1": 0.7540983606557377,
+                "flagged_rate": 0.9
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 1.0,
+                "precision": 0.625,
+                "f1": 0.7692307692307693,
+                "flagged_rate": 1.0
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.5,
+            "precision": 0.631578947368421,
+            "recall": 0.48,
+            "f1": 0.5454545454545454,
+            "roc_auc": 0.51,
+            "pr_auc": 0.6721600597569588,
+            "brier": 0.2534157922392358
+          },
+          "clinical_baseline": null
+        }
+      },
+      "core_only_auc_cost": 0.20799999999999996
+    },
+    "stroke": {
+      "display_name": "Stroke",
+      "source": "Kaggle Healthcare Stroke Prediction",
+      "n_rows": 5110,
+      "positive_rate": 0.052250489236790605,
+      "variants": {
+        "full": {
+          "feature_set": "full",
+          "n_features": 10,
+          "features": [
+            "age",
+            "sex",
+            "bmi",
+            "glucose",
+            "smoking",
+            "hypertension",
+            "heart_disease",
+            "ever_married",
+            "work_type",
+            "residence_type"
+          ],
+          "n_train": 4088,
+          "n_test": 1022,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.8378467046440459,
+                "std": 0.02286535900588674
+              },
+              "pr_auc": {
+                "mean": 0.25700071048534584,
+                "std": 0.037208057960074876
+              },
+              "recall": {
+                "mean": 0.7590033222591362,
+                "std": 0.05567365340175649
+              },
+              "f1": {
+                "mean": 0.25697329743517383,
+                "std": 0.018487018241138395
+              },
+              "accuracy": {
+                "mean": 0.7699136623043935,
+                "std": 0.014144128375871522
+              },
+              "cv_seconds": 1.05
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.8107031149814032,
+                "std": 0.02692155455011085
+              },
+              "pr_auc": {
+                "mean": 0.2229873526100791,
+                "std": 0.03465166970494435
+              },
+              "recall": {
+                "mean": 0.09997785160575859,
+                "std": 0.03520517745580931
+              },
+              "f1": {
+                "mean": 0.14874935136171785,
+                "std": 0.050837931640728494
+              },
+              "accuracy": {
+                "mean": 0.9405089883975305,
+                "std": 0.0035396209191826265
+              },
+              "cv_seconds": 37.7
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.8049436842045506,
+                "std": 0.035158766706228195
+              },
+              "pr_auc": {
+                "mean": 0.23121191734645488,
+                "std": 0.04452411023506341
+              },
+              "recall": {
+                "mean": 0.5544186046511628,
+                "std": 0.07745963842568396
+              },
+              "f1": {
+                "mean": 0.2751150466217118,
+                "std": 0.03757252285792979
+              },
+              "accuracy": {
+                "mean": 0.8466285204681688,
+                "std": 0.014450384401307605
+              },
+              "cv_seconds": 3.68
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.04408869087103579
+              },
+              "isotonic": {
+                "brier": 0.0442135364541126
+              }
+            },
+            "before": {
+              "brier": 0.16186008600085303,
+              "reliability": {
+                "mean_predicted": [
+                  0.0433,
+                  0.0812,
+                  0.1319,
+                  0.2033,
+                  0.2903,
+                  0.4203,
+                  0.6205,
+                  0.8438
+                ],
+                "fraction_positive": [
+                  0.0039,
+                  0.0,
+                  0.0098,
+                  0.0274,
+                  0.0235,
+                  0.045,
+                  0.09,
+                  0.2192
+                ],
+                "ece": 0.277
+              }
+            },
+            "after": {
+              "brier": 0.04408869087103579,
+              "reliability": {
+                "mean_predicted": [
+                  0.0048,
+                  0.0081,
+                  0.0125,
+                  0.0189,
+                  0.0276,
+                  0.0438,
+                  0.0848,
+                  0.218
+                ],
+                "fraction_positive": [
+                  0.0039,
+                  0.0,
+                  0.0098,
+                  0.0274,
+                  0.0215,
+                  0.0489,
+                  0.0881,
+                  0.2192
+                ],
+                "ece": 0.0045
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.9510763209393346,
+            "precision": 1.0,
+            "recall": 0.05660377358490566,
+            "f1": 0.10714285714285714,
+            "roc_auc": 0.8719551375664467,
+            "pr_auc": 0.40004704859533396,
+            "brier": 0.040384487106435156,
+            "reliability": {
+              "mean_predicted": [
+                0.0049,
+                0.0096,
+                0.0172,
+                0.0324,
+                0.0726,
+                0.2102
+              ],
+              "fraction_positive": [
+                0.0,
+                0.0059,
+                0.0059,
+                0.0294,
+                0.0647,
+                0.2047
+              ],
+              "ece": 0.006
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.1841,
+                "recall": 0.5471698113207547,
+                "precision": 0.3333333333333333,
+                "f1": 0.4142857142857143,
+                "flagged_rate": 0.08512720156555773
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.0398,
+                "recall": 0.9056603773584906,
+                "precision": 0.128686327077748,
+                "f1": 0.22535211267605634,
+                "flagged_rate": 0.3649706457925636
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.05660377358490566,
+                "precision": 1.0,
+                "f1": 0.10714285714285714,
+                "flagged_rate": 0.0029354207436399216
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.7504892367906066,
+            "precision": 0.15172413793103448,
+            "recall": 0.8301886792452831,
+            "f1": 0.2565597667638484,
+            "roc_auc": 0.8721109099051736,
+            "pr_auc": 0.40010480213246513,
+            "brier": 0.1731577898546354
+          },
+          "clinical_baseline": null
+        },
+        "core": {
+          "feature_set": "core",
+          "n_features": 5,
+          "features": [
+            "age",
+            "sex",
+            "bmi",
+            "glucose",
+            "smoking"
+          ],
+          "n_train": 4088,
+          "n_test": 1022,
+          "model_comparison": {
+            "logistic_regression": {
+              "roc_auc": {
+                "mean": 0.8376720711739395,
+                "std": 0.026998664368746636
+              },
+              "pr_auc": {
+                "mean": 0.23372800665798243,
+                "std": 0.03951288121621423
+              },
+              "recall": {
+                "mean": 0.7655370985603543,
+                "std": 0.05601860037077205
+              },
+              "f1": {
+                "mean": 0.25613350204234764,
+                "std": 0.01827036677998844
+              },
+              "accuracy": {
+                "mean": 0.7668310624175153,
+                "std": 0.015575891944432057
+              },
+              "cv_seconds": 0.71
+            },
+            "random_forest": {
+              "roc_auc": {
+                "mean": 0.7863614216954018,
+                "std": 0.03253040989176983
+              },
+              "pr_auc": {
+                "mean": 0.19410422381401463,
+                "std": 0.03326114419339883
+              },
+              "recall": {
+                "mean": 0.11880398671096346,
+                "std": 0.037622318880058445
+              },
+              "f1": {
+                "mean": 0.16140630145404494,
+                "std": 0.04478403229551238
+              },
+              "accuracy": {
+                "mean": 0.9359586776117527,
+                "std": 0.005536918189829595
+              },
+              "cv_seconds": 36.42
+            },
+            "xgboost": {
+              "roc_auc": {
+                "mean": 0.7995610300138712,
+                "std": 0.03491891125005909
+              },
+              "pr_auc": {
+                "mean": 0.2325055039130258,
+                "std": 0.050001055982228065
+              },
+              "recall": {
+                "mean": 0.5421705426356589,
+                "std": 0.0730898150943772
+              },
+              "f1": {
+                "mean": 0.25088463506360326,
+                "std": 0.031055785098651187
+              },
+              "accuracy": {
+                "mean": 0.8302387229801917,
+                "std": 0.01499644056702832
+              },
+              "cv_seconds": 2.91
+            }
+          },
+          "selected_model": "logistic_regression",
+          "selection_criterion": "highest mean PR-AUC over 5x5 repeated stratified CV",
+          "calibration": {
+            "method_chosen": "sigmoid",
+            "candidates": {
+              "sigmoid": {
+                "brier": 0.04443688432857292
+              },
+              "isotonic": {
+                "brier": 0.04467570437800756
+              }
+            },
+            "before": {
+              "brier": 0.16549821813754342,
+              "reliability": {
+                "mean_predicted": [
+                  0.0552,
+                  0.0958,
+                  0.1474,
+                  0.2173,
+                  0.3063,
+                  0.4332,
+                  0.6205,
+                  0.8417
+                ],
+                "fraction_positive": [
+                  0.0,
+                  0.0059,
+                  0.0098,
+                  0.0215,
+                  0.0333,
+                  0.0352,
+                  0.0802,
+                  0.2329
+                ],
+                "ece": 0.2873
+              }
+            },
+            "after": {
+              "brier": 0.04443688432857292,
+              "reliability": {
+                "mean_predicted": [
+                  0.005,
+                  0.0083,
+                  0.0125,
+                  0.0186,
+                  0.0276,
+                  0.0441,
+                  0.0848,
+                  0.2203
+                ],
+                "fraction_positive": [
+                  0.0,
+                  0.0059,
+                  0.0098,
+                  0.0215,
+                  0.0333,
+                  0.0352,
+                  0.0802,
+                  0.2329
+                ],
+                "ece": 0.0056
+              }
+            }
+          },
+          "test_metrics": {
+            "accuracy": 0.949119373776908,
+            "precision": 1.0,
+            "recall": 0.018867924528301886,
+            "f1": 0.037037037037037035,
+            "roc_auc": 0.8540607901551881,
+            "pr_auc": 0.3367643561563344,
+            "brier": 0.041975269994461134,
+            "reliability": {
+              "mean_predicted": [
+                0.0051,
+                0.01,
+                0.0174,
+                0.0324,
+                0.0685,
+                0.2113
+              ],
+              "fraction_positive": [
+                0.0,
+                0.0059,
+                0.0118,
+                0.0412,
+                0.0529,
+                0.1988
+              ],
+              "ece": 0.0086
+            },
+            "thresholds": {
+              "max_f1": {
+                "threshold": 0.2089,
+                "recall": 0.4528301886792453,
+                "precision": 0.3157894736842105,
+                "f1": 0.37209302325581395,
+                "flagged_rate": 0.07436399217221135
+              },
+              "recall_at_least_90pct": {
+                "threshold": 0.0349,
+                "recall": 0.9056603773584906,
+                "precision": 0.11970074812967581,
+                "f1": 0.21145374449339208,
+                "flagged_rate": 0.3923679060665362
+              },
+              "default_0.5": {
+                "threshold": 0.4924,
+                "recall": 0.018867924528301886,
+                "precision": 1.0,
+                "f1": 0.037037037037037035,
+                "flagged_rate": 0.0009784735812133072
+              }
+            }
+          },
+          "test_metrics_uncalibrated": {
+            "accuracy": 0.7426614481409002,
+            "precision": 0.14285714285714285,
+            "recall": 0.7924528301886793,
+            "f1": 0.2420749279538905,
+            "roc_auc": 0.8541776194092333,
+            "pr_auc": 0.336649945297657,
+            "brier": 0.1764742940078728
+          },
+          "clinical_baseline": null
+        }
+      },
+      "core_only_auc_cost": 0.017894347411258615
+    }
+  },
+  "total_train_seconds": 218.4
+}

@@ -1,0 +1,228 @@
+{
+  "heart": {
+    "display_name": "Heart Disease",
+    "source": "UCI Cleveland Heart Disease",
+    "n_rows": 303,
+    "n_raw_columns": 14,
+    "n_clean_features": 16,
+    "positive_rate": 0.46864686468646866,
+    "n_positive": 142,
+    "imbalance_ratio": 1.1338028169014085,
+    "core_coverage": {
+      "age": "direct",
+      "sex": "direct",
+      "systolic_bp": "direct",
+      "bmi": "absent",
+      "glucose": "proxy",
+      "smoking": "absent"
+    },
+    "cleaning_log": [
+      "glucose left NaN: source records only binary fbs (>120 mg/dL)",
+      "bmi left NaN: not collected by UCI Heart",
+      "smoking left NaN: not collected by UCI Heart",
+      "ca: 4 '?' markers decoded as missing",
+      "thal: 2 '?' markers decoded as missing",
+      "target binarised from num (0-4) as num > 0"
+    ],
+    "missingness_pct": {
+      "glucose": 100.0,
+      "bmi": 100.0,
+      "smoking": 100.0,
+      "major_vessels": 1.32,
+      "thalassemia": 0.66
+    },
+    "fully_missing_features": [
+      "glucose",
+      "bmi",
+      "smoking"
+    ],
+    "usable_features": [
+      "age",
+      "sex",
+      "systolic_bp",
+      "cholesterol_total",
+      "chest_pain_type",
+      "fasting_bs_high",
+      "resting_ecg",
+      "max_heart_rate",
+      "exercise_angina",
+      "st_depression",
+      "st_slope",
+      "major_vessels",
+      "thalassemia"
+    ]
+  },
+  "diabetes": {
+    "display_name": "Diabetes",
+    "source": "Pima Indians Diabetes (NIDDK)",
+    "n_rows": 768,
+    "n_raw_columns": 9,
+    "n_clean_features": 11,
+    "positive_rate": 0.33203125,
+    "n_positive": 255,
+    "imbalance_ratio": 2.011764705882353,
+    "core_coverage": {
+      "age": "direct",
+      "sex": "constant",
+      "systolic_bp": "proxy",
+      "bmi": "direct",
+      "glucose": "direct",
+      "smoking": "absent"
+    },
+    "cleaning_log": [
+      "sex set to 'female' for all rows: Pima cohort is female-only",
+      "systolic_bp left NaN: source records DIASTOLIC pressure only",
+      "smoking left NaN: not collected by Pima",
+      "Glucose: 5 physiologically impossible zeros (0.7%) decoded as missing",
+      "BloodPressure: 35 physiologically impossible zeros (4.6%) decoded as missing",
+      "SkinThickness: 227 physiologically impossible zeros (29.6%) decoded as missing",
+      "Insulin: 374 physiologically impossible zeros (48.7%) decoded as missing",
+      "BMI: 11 physiologically impossible zeros (1.4%) decoded as missing"
+    ],
+    "missingness_pct": {
+      "systolic_bp": 100.0,
+      "smoking": 100.0,
+      "glucose": 0.65,
+      "diastolic_bp": 4.56,
+      "skin_thickness": 29.56,
+      "insulin": 48.7,
+      "bmi": 1.43
+    },
+    "fully_missing_features": [
+      "systolic_bp",
+      "smoking"
+    ],
+    "usable_features": [
+      "age",
+      "sex",
+      "glucose",
+      "diastolic_bp",
+      "skin_thickness",
+      "insulin",
+      "bmi",
+      "pregnancies",
+      "diabetes_pedigree"
+    ]
+  },
+  "kidney": {
+    "display_name": "Chronic Kidney Disease",
+    "source": "UCI Chronic Kidney Disease",
+    "n_rows": 400,
+    "n_raw_columns": 25,
+    "n_clean_features": 28,
+    "positive_rate": 0.625,
+    "n_positive": 250,
+    "imbalance_ratio": 0.6,
+    "core_coverage": {
+      "age": "direct",
+      "sex": "absent",
+      "systolic_bp": "proxy",
+      "bmi": "absent",
+      "glucose": "direct",
+      "smoking": "absent"
+    },
+    "cleaning_log": [
+      "sex left NaN: not collected by UCI CKD",
+      "bmi left NaN: not collected by UCI CKD",
+      "smoking left NaN: not collected by UCI CKD",
+      "systolic_bp left NaN: source records DIASTOLIC pressure only",
+      "coerced string-typed numerics to float (stray tabs/spaces): sc, bu, hemo, sod, pot, pcv, wc, rc",
+      "classification: 12 labels carried a trailing tab ('ckd\\t'); stripped before mapping"
+    ],
+    "missingness_pct": {
+      "sex": 100.0,
+      "bmi": 100.0,
+      "smoking": 100.0,
+      "systolic_bp": 100.0,
+      "glucose": 11.0,
+      "serum_creatinine": 4.25,
+      "blood_urea": 4.75,
+      "hemoglobin": 13.0,
+      "sodium": 21.75,
+      "potassium": 22.0,
+      "packed_cell_volume": 18.0,
+      "white_cell_count": 26.25,
+      "red_cell_count": 32.75,
+      "specific_gravity": 11.75,
+      "albumin": 11.5
+    },
+    "fully_missing_features": [
+      "sex",
+      "bmi",
+      "smoking",
+      "systolic_bp"
+    ],
+    "usable_features": [
+      "age",
+      "diastolic_bp",
+      "glucose",
+      "serum_creatinine",
+      "blood_urea",
+      "hemoglobin",
+      "sodium",
+      "potassium",
+      "packed_cell_volume",
+      "white_cell_count",
+      "red_cell_count",
+      "specific_gravity",
+      "albumin",
+      "sugar",
+      "red_blood_cells",
+      "pus_cell",
+      "pus_cell_clumps",
+      "bacteria",
+      "hypertension",
+      "diabetes_mellitus",
+      "coronary_artery_disease",
+      "appetite",
+      "pedal_edema",
+      "anemia"
+    ]
+  },
+  "stroke": {
+    "display_name": "Stroke",
+    "source": "Kaggle Healthcare Stroke Prediction",
+    "n_rows": 5110,
+    "n_raw_columns": 12,
+    "n_clean_features": 11,
+    "positive_rate": 0.052250489236790605,
+    "n_positive": 267,
+    "imbalance_ratio": 18.138576779026216,
+    "core_coverage": {
+      "age": "direct",
+      "sex": "direct",
+      "systolic_bp": "absent",
+      "bmi": "direct",
+      "glucose": "direct",
+      "smoking": "direct"
+    },
+    "cleaning_log": [
+      "gender: 1 row(s) outside male/female decoded as missing (the real file contains one 'Other')",
+      "systolic_bp left NaN: source has no BP reading, only a binary hypertension flag",
+      "bmi: 201 missing values left as NaN for in-pipeline imputation",
+      "smoking: 1494 rows (29.2%) coded 'Unknown' in source, decoded as missing rather than as 'never'",
+      "class balance: 5.23% positive -- accuracy is not a usable metric here"
+    ],
+    "missingness_pct": {
+      "sex": 0.02,
+      "systolic_bp": 100.0,
+      "bmi": 3.93,
+      "smoking": 29.24
+    },
+    "fully_missing_features": [
+      "systolic_bp"
+    ],
+    "usable_features": [
+      "age",
+      "sex",
+      "bmi",
+      "glucose",
+      "smoking",
+      "hypertension",
+      "heart_disease",
+      "ever_married",
+      "work_type",
+      "residence_type"
+    ]
+  }
+}

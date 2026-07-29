@@ -1,0 +1,369 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Clinical Light Design System ─────────────────────────────────────── */
+:root {
+  color-scheme: light;
+
+  /* Backgrounds */
+  --bg-app:      #eef2f7;
+  --bg-surface:  #ffffff;
+  --bg-raised:   #f8fafc;
+  --bg-sunken:   #f1f5f9;
+  --bg-hover:    #f0f7ff;
+
+  /* Borders */
+  --border:      #dde3ec;
+  --border-med:  #c8d2df;
+  --border-str:  #b0bfcf;
+
+  /* Typography */
+  --text-primary:   #0f1c2e;
+  --text-secondary: #3d5166;
+  --text-muted:     #6b7f94;
+  --text-faint:     #9aaab8;
+
+  /* Clinical brand */
+  --teal:        #0a7c7c;
+  --teal-deep:   #065f5f;
+  --teal-light:  #e0f5f5;
+  --teal-mid:    #b2e3e3;
+  --teal-dim:    rgba(10,124,124,.08);
+  --teal-glow:   rgba(10,124,124,.18);
+
+  --navy:        #1e3a5f;
+  --navy-light:  #e8eef6;
+
+  /* Risk bands — clinical color standards */
+  --risk-low:        #059669;
+  --risk-low-bg:     #ecfdf5;
+  --risk-low-border: #a7f3d0;
+
+  --risk-mod:        #d97706;
+  --risk-mod-bg:     #fffbeb;
+  --risk-mod-border: #fcd34d;
+
+  --risk-high:       #dc2626;
+  --risk-high-bg:    #fef2f2;
+  --risk-high-border:#fca5a5;
+
+  --risk-crit:       #7c0a0a;
+  --risk-crit-bg:    #fff1f1;
+  --risk-crit-border:#f87171;
+
+  /* Semantic */
+  --amber:       #b45309;
+  --amber-bg:    #fffbeb;
+  --amber-border:#fcd34d;
+
+  /* Abstention (insufficient data) */
+  --risk-abstain:        #64748b;
+  --risk-abstain-bg:     #f8fafc;
+  --risk-abstain-border: #cbd5e1;
+
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* ─── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-app);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* ─── Typography helpers ─────────────────────────────────────────────────── */
+.num   { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+.label {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ─── Card / Surface ─────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  box-shadow: 0 1px 4px rgba(15,28,46,.06), 0 4px 16px rgba(15,28,46,.04);
+}
+.card-flat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+.card-sunken {
+  background: var(--bg-sunken);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+/* ─── Hatching (imputed values — amber medical alert style) ──────────────── */
+.hatch {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--amber) 0 1.5px,
+    transparent 1.5px 5px
+  );
+}
+
+/* ─── Animations ─────────────────────────────────────────────────────────── */
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes slide-in-right {
+  from { opacity: 0; transform: translateX(10px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform:scale(1);   }
+  50%      { opacity:.4; transform:scale(.6); }
+}
+@keyframes bar-grow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.animate-fade-up        { animation: fade-up .35s ease both; }
+.animate-fade-in        { animation: fade-in .25s ease both; }
+.animate-slide-right    { animation: slide-in-right .3s ease both; }
+
+/* ─── Focus ──────────────────────────────────────────────────────────────── */
+*:focus-visible {
+  outline: 2px solid var(--teal);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* ─── Form controls ──────────────────────────────────────────────────────── */
+input[type=number],
+select {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border);
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  padding: 7px 10px;
+  width: 100%;
+  border-radius: 6px;
+  transition: border-color .15s, box-shadow .15s;
+  appearance: none;
+}
+input[type=number]:focus,
+select:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px var(--teal-dim);
+  outline: none;
+}
+input[type=number]::placeholder { color: var(--text-faint); }
+
+/* ─── Range sliders ──────────────────────────────────────────────────────── */
+input[type=range] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--border);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  width: 100%;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  background: var(--teal);
+  border-radius: 50%;
+  border: 2.5px solid white;
+  box-shadow: 0 0 0 1px var(--teal), 0 2px 6px rgba(10,124,124,.3);
+  cursor: grab;
+  transition: box-shadow .15s;
+}
+input[type=range]::-webkit-slider-thumb:active {
+  cursor: grabbing;
+  box-shadow: 0 0 0 3px var(--teal-glow), 0 2px 6px rgba(10,124,124,.3);
+}
+input[type=range]::-moz-range-thumb {
+  width: 18px; height: 18px;
+  background: var(--teal);
+  border-radius: 50%;
+  border: 2.5px solid white;
+  cursor: grab;
+}
+
+/* ─── Buttons ────────────────────────────────────────────────────────────── */
+.btn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all .15s;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: none;
+}
+.btn-primary {
+  background: var(--teal);
+  color: white;
+  padding: 10px 18px;
+  box-shadow: 0 1px 3px rgba(10,124,124,.25), 0 4px 12px rgba(10,124,124,.15);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--teal-deep);
+  box-shadow: 0 2px 6px rgba(10,124,124,.35), 0 6px 16px rgba(10,124,124,.2);
+  transform: translateY(-1px);
+}
+.btn-primary:disabled { opacity: .45; cursor: not-allowed; transform: none; box-shadow: none; }
+
+.btn-tab {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+.btn-tab:hover  { border-color: var(--teal); color: var(--teal); background: var(--teal-dim); }
+.btn-tab.active { border-color: var(--teal); color: var(--teal); background: var(--teal-light); font-weight: 600; }
+
+/* ─── Divider ────────────────────────────────────────────────────────────── */
+.divider { border-top: 1px solid var(--border); }
+
+/* ─── Status badge ───────────────────────────────────────────────────────── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  padding: 3px 9px;
+  border-radius: 20px;
+  border: 1.5px solid currentColor;
+}
+
+/* ─── Risk band colour variables ─────────────────────────────────────────── */
+.risk-low      { color: var(--risk-low);  background: var(--risk-low-bg);  border-color: var(--risk-low-border); }
+.risk-moderate { color: var(--risk-mod);  background: var(--risk-mod-bg);  border-color: var(--risk-mod-border); }
+.risk-high     { color: var(--risk-high); background: var(--risk-high-bg); border-color: var(--risk-high-border); }
+.risk-critical { color: var(--risk-crit); background: var(--risk-crit-bg); border-color: var(--risk-crit-border); }
+.risk-abstain  { color: var(--risk-abstain); background: var(--risk-abstain-bg); border-color: var(--risk-abstain-border); }
+
+/* ─── Section header accent ──────────────────────────────────────────────── */
+.section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -.01em;
+}
+
+/* ─── Table ──────────────────────────────────────────────────────────────── */
+.clin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.clin-table th {
+  padding: 8px 12px;
+  text-align: left;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  background: var(--bg-sunken);
+  border-bottom: 1.5px solid var(--border-med);
+}
+.clin-table td {
+  padding: 9px 12px;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+.clin-table tr:last-child td { border-bottom: none; }
+.clin-table tr:hover td { background: var(--bg-hover); }
+
+/* ─── Scrollbar ──────────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-raised); }
+::-webkit-scrollbar-thumb { background: var(--border-med); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-str); }
+
+/* ─── Reduce motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* ─── Print / PDF Export ─────────────────────────────────────────────────── */
+@media print {
+  /* Hide everything except the print report */
+  body > div > header,
+  body > div > footer,
+  #standin-banner,
+  #error-banner,
+  aside,
+  nav,
+  .no-print {
+    display: none !important;
+  }
+
+  /* Show the hidden print report */
+  #print-report {
+    display: block !important;
+  }
+
+  /* Hide the main app content, show only print report */
+  #app-main {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: #0f1c2e;
+    font-family: 'Inter', sans-serif;
+    font-size: 12px;
+  }
+
+  .print-section {
+    page-break-inside: avoid;
+    margin-bottom: 20px;
+  }
+
+  .print-card {
+    border: 1.5px solid #dde3ec;
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 12px;
+    page-break-inside: avoid;
+  }
+
+  .print-risk-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  @page {
+    margin: 20mm 18mm;
+    size: A4;
+  }
+}
