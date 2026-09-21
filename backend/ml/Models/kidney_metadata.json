@@ -1,0 +1,278 @@
+{
+  "target_cdc_variable": "CHCKDNY2",
+  "target_definition": "1 = ever told kidney disease (not including kidney stones, bladder infection or incontinence); 2 = No",
+  "data_source": "CDC BRFSS LLCP2025.XPT",
+  "model_version": "v2 (all valid positives + sampled negatives, stratified 70/15/15)",
+  "cdc_variables_used": [
+    "CHCKDNY2",
+    "_AGE80",
+    "SEXVAR",
+    "_BMI5",
+    "_SMOKER3",
+    "_TOTINDA",
+    "SLEPTIM1",
+    "_RFDRHV9",
+    "_RFHYPE6",
+    "_RFCHOL3",
+    "DIABETE4",
+    "CHCCOPD3",
+    "ADDEPEV3",
+    "DIFFWALK",
+    "GENHLTH",
+    "PHYSHLTH"
+  ],
+  "cdc_to_feature_name": {
+    "_AGE80": "age",
+    "SEXVAR": "sex_male",
+    "_BMI5": "bmi",
+    "_SMOKER3": "smoking_status",
+    "_TOTINDA": "physically_active",
+    "SLEPTIM1": "sleep_hours",
+    "_RFDRHV9": "heavy_drinker",
+    "_RFHYPE6": "high_bp",
+    "_RFCHOL3": "high_chol",
+    "DIABETE4": "diabetes_status",
+    "CHCCOPD3": "copd",
+    "ADDEPEV3": "depression",
+    "DIFFWALK": "difficulty_walking",
+    "GENHLTH": "general_health",
+    "PHYSHLTH": "physical_unwell_days"
+  },
+  "features": [
+    "age",
+    "bmi",
+    "sleep_hours",
+    "physical_unwell_days",
+    "sex_male",
+    "physically_active",
+    "heavy_drinker",
+    "high_bp",
+    "high_chol",
+    "diabetes_status",
+    "copd",
+    "depression",
+    "difficulty_walking",
+    "general_health",
+    "smoking_status"
+  ],
+  "encoded_feature_names": [
+    "age",
+    "bmi",
+    "sleep_hours",
+    "physical_unwell_days",
+    "sex_male",
+    "physically_active",
+    "heavy_drinker",
+    "high_bp",
+    "high_chol",
+    "diabetes_status",
+    "copd",
+    "depression",
+    "difficulty_walking",
+    "general_health",
+    "smoking_status_1.0",
+    "smoking_status_2.0",
+    "smoking_status_3.0",
+    "smoking_status_4.0"
+  ],
+  "sampling": {
+    "positives_used": 19215,
+    "negatives_used": 60000,
+    "valid_positives_in_file": 19215,
+    "valid_negatives_in_file": 335462,
+    "negative_sampling": "random 60,000 of 335,462 valid negatives, seed=42",
+    "feature_missingness_handling": "invalid/refused values are mapped to NaN; rows with valid target are retained and the train-fitted preprocessor imputes missing features."
+  },
+  "rows_used": 79215,
+  "train_rows": 55450,
+  "validation_rows": 11882,
+  "test_rows": 11883,
+  "split": "stratified 70/15/15, seed 42, before preprocessor fit",
+  "class_distribution_all": {
+    "negative_0": 60000,
+    "positive_1": 19215,
+    "positive_rate": 0.2425676955122136
+  },
+  "class_distribution_train": {
+    "0": 42000,
+    "1": 13450
+  },
+  "class_distribution_validation": {
+    "0": 9000,
+    "1": 2882
+  },
+  "class_distribution_test": {
+    "0": 9000,
+    "1": 2883
+  },
+  "scale_pos_weight": 3.1226765799256504,
+  "xgboost_params": {
+    "subsample": 0.8,
+    "reg_lambda": 1,
+    "n_estimators": 300,
+    "min_child_weight": 3,
+    "max_depth": 4,
+    "learning_rate": 0.02,
+    "gamma": 0,
+    "colsample_bytree": 0.6
+  },
+  "cv_roc_auc_best": 0.8160597768042775,
+  "calibration_method": "isotonic",
+  "calibration_oof_brier_train": {
+    "sigmoid": 0.13960509866662774,
+    "isotonic": 0.1393084252566922
+  },
+  "f1_optimised_threshold": 0.28999999999999987,
+  "prevalence_note": {
+    "training_prevalence": 0.24256086564472498,
+    "population_prevalence_valid_brfss_rows": 0.054176053141308855,
+    "delta_logit_shift": -1.7211269499591872,
+    "f1_optimised_threshold_after_correction": 0.06999999999999999,
+    "explanation": "predict_proba is calibrated to the enriched training prevalence; production inference applies the stored logit prior correction to BRFSS valid-row prevalence."
+  },
+  "risk_bands_percent": {
+    "Low": "0-29",
+    "Moderate": "30-49",
+    "Elevated": "50-69",
+    "High": "70-100"
+  },
+  "metrics_validation": {
+    "roc_auc": 0.8148003701133473,
+    "pr_auc": 0.5683999484637707,
+    "brier": 0.13982521795270275,
+    "log_loss": 0.4312576570451486,
+    "ece": 0.008204914642541153,
+    "mean_predicted_prob": 0.2407855683563243,
+    "observed_positive_rate": 0.24255175896313752,
+    "brier_uncalibrated": 0.17719784379005432,
+    "threshold_used": 0.28999999999999987,
+    "at_threshold_0.50": {
+      "threshold": 0.5,
+      "accuracy": 0.7937215956909611,
+      "precision": 0.6275902901124926,
+      "recall": 0.3678001387925052,
+      "f1": 0.4637934806388099,
+      "confusion_matrix": {
+        "tn": 8371,
+        "fp": 629,
+        "fn": 1822,
+        "tp": 1060
+      }
+    },
+    "at_threshold_0.290_f1_optimised": {
+      "threshold": 0.28999999999999987,
+      "accuracy": 0.7481905403130786,
+      "precision": 0.4872330547818013,
+      "recall": 0.7283136710617627,
+      "f1": 0.5838664812239222,
+      "confusion_matrix": {
+        "tn": 6791,
+        "fp": 2209,
+        "fn": 783,
+        "tp": 2099
+      }
+    }
+  },
+  "metrics_test": {
+    "roc_auc": 0.8183472655798358,
+    "pr_auc": 0.5685565196832552,
+    "brier": 0.13889948127397034,
+    "log_loss": 0.4282165521694946,
+    "ece": 0.00633158046668511,
+    "mean_predicted_prob": 0.2409130549072582,
+    "observed_positive_rate": 0.24261550113607674,
+    "brier_uncalibrated": 0.17554745078086853,
+    "threshold_used": 0.28999999999999987,
+    "at_threshold_0.50": {
+      "threshold": 0.5,
+      "accuracy": 0.7934023394765631,
+      "precision": 0.6255868544600939,
+      "recall": 0.36975372875476936,
+      "f1": 0.46479180292129935,
+      "confusion_matrix": {
+        "tn": 8362,
+        "fp": 638,
+        "fn": 1817,
+        "tp": 1066
+      }
+    },
+    "at_threshold_0.290_f1_optimised": {
+      "threshold": 0.28999999999999987,
+      "accuracy": 0.7503155768745267,
+      "precision": 0.4902552204176334,
+      "recall": 0.7329171002428027,
+      "f1": 0.5875156402057556,
+      "confusion_matrix": {
+        "tn": 6803,
+        "fp": 2197,
+        "fn": 770,
+        "tp": 2113
+      }
+    },
+    "roc_auc_95ci": [
+      0.8095676710418493,
+      0.8269164874362116
+    ],
+    "calibration": {
+      "method": "isotonic",
+      "reliability_table": [
+        {
+          "predicted_range": "0%-5%",
+          "n": 2657,
+          "mean_predicted": 0.027253895221396544,
+          "observed_rate": 0.02860368837034249
+        },
+        {
+          "predicted_range": "5%-10%",
+          "n": 1946,
+          "mean_predicted": 0.07928748637426333,
+          "observed_rate": 0.07194244604316546
+        },
+        {
+          "predicted_range": "10%-20%",
+          "n": 1924,
+          "mean_predicted": 0.14792971782959424,
+          "observed_rate": 0.14916839916839916
+        },
+        {
+          "predicted_range": "20%-30%",
+          "n": 1165,
+          "mean_predicted": 0.24846195923668124,
+          "observed_rate": 0.26008583690987125
+        },
+        {
+          "predicted_range": "30%-50%",
+          "n": 2487,
+          "mean_predicted": 0.3954216879177247,
+          "observed_rate": 0.40651387213510254
+        },
+        {
+          "predicted_range": "50%-100%",
+          "n": 1704,
+          "mean_predicted": 0.6329660128574696,
+          "observed_rate": 0.6255868544600939
+        }
+      ]
+    }
+  },
+  "feature_importance": {
+    "high_bp": 0.4413779079914093,
+    "diabetes_status": 0.11131975054740906,
+    "difficulty_walking": 0.10644647479057312,
+    "age": 0.09114981442689896,
+    "general_health": 0.08202160149812698,
+    "physical_unwell_days": 0.03399357944726944,
+    "high_chol": 0.03238082677125931,
+    "copd": 0.017022155225276947,
+    "depression": 0.01635330356657505,
+    "physically_active": 0.016167664900422096,
+    "heavy_drinker": 0.009430560283362865,
+    "smoking_status_3.0": 0.008869214914739132,
+    "smoking_status_1.0": 0.0072233728133141994,
+    "bmi": 0.006111094728112221,
+    "sex_male": 0.005694940686225891,
+    "sleep_hours": 0.005429581273347139,
+    "smoking_status_4.0": 0.004942587576806545,
+    "smoking_status_2.0": 0.004065444227308035
+  }
+}

@@ -1,0 +1,28 @@
+@"
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Environment / secrets
+.env
+**/.env
+*.env
+
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Frontend dependencies / builds
+node_modules/
+dist/
+.vite/
+
+# Temporary / downloaded packages
+*.zip
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+"@ | Set-Content .gitignore
