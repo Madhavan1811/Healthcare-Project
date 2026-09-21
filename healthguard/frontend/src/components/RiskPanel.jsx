@@ -270,7 +270,8 @@ export default function RiskPanel({ risks, triage, warnings }) {
 
       {/* Triage summary card */}
       <div className="card animate-fade-up"
-        style={{ padding: 24, borderLeft: `4px solid ${tierBand.color}` }}>
+        style={{ padding: 24, borderLeft: `4px solid ${tierBand.color}`, background: 'white' }}>
+        <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: 'var(--text-muted)', marginBottom: 14 }}>Overall Triage Summary</div>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 32, alignItems: 'flex-start' }}>
           {/* Tier */}
           <div>
@@ -349,7 +350,7 @@ export default function RiskPanel({ risks, triage, warnings }) {
       ))}
 
       {/* Risk cards 2×2 */}
-      <div style={{ display: 'grid', gap: 14, gridTemplateColumns: 'repeat(2, 1fr)' }}>
+      <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(2, 1fr)' }}>
         {order.filter(d => risks[d]).map((d, i) => <SmartRiskCard key={d} r={risks[d]} index={i} />)}
       </div>
     </section>
