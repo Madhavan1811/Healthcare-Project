@@ -822,6 +822,14 @@ async def run_health_assessment(
 
     result = agent_output.model_dump(mode="json")
 
+    # The Health Agent deliberately exposes only qualitative factor importance.
+    # Keep the verified raw-margin SHAP payload available to the frontend so
+    # Explainability can render the actual numerical contributions without
+    # inventing percentage-point changes. This payload is produced by the same
+    # SHAP engine used in the agent input, after the ML/SHAP consistency checks.
+    result["shap"] = shap_raw
+    result["request_id"] = correlation_id
+
     logger.info(
         "health_pipeline.ok request_id=%s duration_ms=%.1f",
         correlation_id,
