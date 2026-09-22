@@ -126,6 +126,7 @@ function buildRisk(
     recommendations: recommendationsForDisease(response, disease),
     headline: overview.headline,
     shortExplanation: overview.short_explanation,
+    riskContext: overview.risk_context,
   };
 }
 

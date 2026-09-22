@@ -26,12 +26,16 @@ export interface DiseaseRisk {
   disease: string;
   riskPercentage: number;
   riskLevel: RiskLevel;
-  /** Backend does not currently emit a calibrated confidence interval/score. */
-  confidence?: number;
-  /** Backend does not currently provide a longitudinal trend. */
+  /** Backend does not emit a calibrated confidence score — never use this to render UI. */
+  confidence?: never;
+  /** Backend does not provide a longitudinal trend. */
   trend?: 'increasing' | 'stable' | 'decreasing';
   headline?: string;
   shortExplanation?: string;
+  /** Grounded context string from Health Agent (ML mode) or rule engine (rule_based mode). */
+  riskContext?: string;
+  /** Interaction rule labels that fired (rule_based mode only). */
+  interactionRules?: string[];
   factors: Factor[];
   recommendations: string[];
 }
@@ -105,6 +109,8 @@ export interface AssessmentData {
   specialistFollowUp: SpecialistFollowUp;
   ui: UIHints;
   requestId?: string;
+  /** 'ml' when the real backend was used, 'rule_based' when the fallback engine ran. */
+  assessmentMode?: 'ml' | 'rule_based';
 }
 
 export const mockAssessment: AssessmentData = {
@@ -127,7 +133,6 @@ export const mockAssessment: AssessmentData = {
       disease: 'Heart Disease',
       riskPercentage: 74,
       riskLevel: 'high',
-      confidence: 82,
       trend: 'increasing',
       factors: [{ name: 'Smoking', contribution: 0.21 }],
       recommendations: ['Increase weekly physical activity', 'Consider a smoking cessation program'],
@@ -136,7 +141,6 @@ export const mockAssessment: AssessmentData = {
       disease: 'Chronic Kidney Disease',
       riskPercentage: 48,
       riskLevel: 'moderate',
-      confidence: 88,
       trend: 'stable',
       factors: [{ name: 'High blood pressure', contribution: 0.15 }],
       recommendations: ['Monitor blood pressure', 'Discuss relevant screening with a clinician'],
@@ -145,7 +149,6 @@ export const mockAssessment: AssessmentData = {
       disease: 'Stroke',
       riskPercentage: 51,
       riskLevel: 'elevated',
-      confidence: 76,
       trend: 'stable',
       factors: [{ name: 'Smoking', contribution: 0.12 }],
       recommendations: ['Manage blood pressure', 'Increase cardiovascular exercise'],

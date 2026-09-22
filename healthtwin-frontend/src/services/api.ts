@@ -32,6 +32,7 @@ export interface BackendRiskOverviewItem {
   risk_level: 'Low' | 'Moderate' | 'Elevated' | 'High';
   headline: string;
   short_explanation: string;
+  risk_context: string;
 }
 
 export interface BackendKeyFactor {
@@ -119,15 +120,24 @@ export interface BackendAssessmentResponse {
 }
 
 export class AssessmentApiError extends Error {
+  readonly status: number;
+  readonly code: string | undefined;
+  readonly requestId: string | undefined;
+  readonly stage: string | undefined;
+
   constructor(
     message: string,
-    public readonly status: number,
-    public readonly code?: string,
-    public readonly requestId?: string,
-    public readonly stage?: string,
+    status: number,
+    code?: string,
+    requestId?: string,
+    stage?: string,
   ) {
     super(message);
     this.name = 'AssessmentApiError';
+    this.status = status;
+    this.code = code;
+    this.requestId = requestId;
+    this.stage = stage;
   }
 }
 

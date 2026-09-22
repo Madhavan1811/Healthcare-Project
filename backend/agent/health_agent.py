@@ -229,6 +229,7 @@ class RiskOverviewItem(_StrictModel):
     risk_level: RiskLevel
     headline: Text
     short_explanation: Text
+    risk_context: Text
 
 
 class KeyFactor(_StrictModel):
@@ -443,8 +444,7 @@ clearly sits inside / outside it.
 
 ## Field guide
 - overall_summary: 2-4 sentences, plain language, states the estimated risk exactly.
-- risk_overview: exactly one entry per disease in ml_predictions. `headline` is short; \
-`short_explanation` is 1-2 sentences using "estimated risk" wording.
+- risk_overview: exactly one entry per disease in ml_predictions. `headline` is short; `short_explanation` is 1-2 sentences using "estimated risk" wording. `risk_context` MUST summarize the associated factors precisely using the format: "The current estimate is mainly associated with [factor1, factor2, etc.]."
 - key_factors: choose the most relevant factors across the three disease-specific SHAP \
 lists, including factors that pushed an estimate down where supplied. Every item must \
 identify its `disease`. `importance` reflects relative |shap_value| within that disease's \

@@ -55,10 +55,7 @@ export default function PredictionsPage() {
                         )}
                       </span>
                     </div>
-                    <div className="flex items-center text-sm">
-                      <span className="text-muted-foreground w-24">Confidence:</span>
-                      <span className="font-medium">{risk.confidence}%</span>
-                    </div>
+
                   </div>
                 </div>
 
@@ -80,10 +77,12 @@ export default function PredictionsPage() {
                     </div>
 
                     <div>
-                      <h4 className="font-semibold text-lg mb-2">Clinical Context</h4>
+                      <h4 className="font-semibold text-lg mb-2">Model Context</h4>
                       <p className="text-muted-foreground text-sm leading-relaxed">
-                        Your current health profile includes several factors associated with {risk.riskLevel.toLowerCase()} estimated risk. 
-                        Clinical reasoning models identify that mitigating these contributing components could lower long-term probability.
+                        {risk.riskContext || risk.shortExplanation || 'The estimate reflects the combination of factors the model identified in your profile.'}
+                      </p>
+                      <p className="text-xs text-muted-foreground/70 mt-2 italic">
+                        This summary is based only on verified model factors and does not constitute a medical diagnosis.
                       </p>
                     </div>
                   </div>

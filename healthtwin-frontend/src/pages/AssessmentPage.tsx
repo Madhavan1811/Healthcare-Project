@@ -267,6 +267,7 @@ export default function AssessmentPage() {
     try {
       const success = await generateAssessment(patientInput);
       if (success) {
+        // Navigate on both ML success and rule-based fallback success
         navigate('/dashboard');
       }
     } finally {

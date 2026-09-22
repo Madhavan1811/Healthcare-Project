@@ -3,15 +3,16 @@ import { Card, CardHeader, CardTitle, CardContent, CardDescription, CardFooter }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
-import { ArrowRight, AlertCircle, HeartPulse, Dna, ArrowUpRight, Minus } from 'lucide-react';
+import { ArrowRight, AlertCircle, HeartPulse, Dna, ArrowUpRight, Minus, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const { assessment } = useAssessment();
+  const { assessment, assessmentMode } = useAssessment();
   const navigate = useNavigate();
 
   if (!assessment) return null;
 
+  const isRuleBased = assessmentMode === 'rule_based' || assessment.assessmentMode === 'rule_based';
   return (
     <div className="space-y-8 pb-10">
       <header className="space-y-2 animate-in fade-in slide-in-from-top-4 duration-500">
@@ -23,6 +24,19 @@ export default function DashboardPage() {
           <span className="ml-2 text-sm">Last updated: {assessment.patient.lastUpdated}</span>
         </p>
       </header>
+
+      {isRuleBased && (
+        <div className="flex items-start gap-3 px-4 py-3 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-sm">
+          <Zap className="w-5 h-5 shrink-0 mt-0.5 text-amber-600" />
+          <div>
+            <span className="font-semibold">Rule-based estimate — not an ML model result.</span>{' '}
+            The HealthTwin ML backend was unavailable when this assessment was generated.
+            Results are from a deterministic rule engine based on your entered questionnaire answers.
+            The same inputs will always produce the same output.
+            Start a new assessment to retry the ML backend.
+          </div>
+        </div>
+      )}
 
       {/* Hero Card */}
       <Card className="border-border shadow-md bg-gradient-to-br from-card to-accent/20 animate-in fade-in slide-in-from-bottom-4 duration-700">

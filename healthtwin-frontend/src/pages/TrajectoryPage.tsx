@@ -1,26 +1,11 @@
-import { useState } from 'react';
 import { useAssessment } from '@/hooks/useAssessment';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { TrendingUp, Clock } from 'lucide-react';
 
 export default function TrajectoryPage() {
   const { assessment } = useAssessment();
-  const [selectedCondition, setSelectedCondition] = useState<'heart' | 'diabetes' | 'stroke'>('heart');
 
   if (!assessment) return null;
-
-  const data = assessment.trajectory.map(t => ({
-    name: t.month === 0 ? 'Now' : `${t.month} mo`,
-    Heart: t.heart,
-    Diabetes: t.diabetes,
-    Stroke: t.stroke
-  }));
-
-  const conditionColors = {
-    heart: '#e11d48',
-    diabetes: '#0284c7',
-    stroke: '#8b5cf6'
-  };
 
   return (
     <div className="space-y-8 pb-10">
@@ -29,85 +14,51 @@ export default function TrajectoryPage() {
           Risk Trajectory
         </h1>
         <p className="text-muted-foreground text-lg max-w-2xl">
-          Observe how your risk is projected to change over time based on current trajectory models.
+          See how your estimated risk profile may change over time.
         </p>
       </header>
 
-      <div className="flex space-x-2 border-b border-border pb-px overflow-x-auto">
-        {(['heart', 'diabetes', 'stroke'] as const).map(condition => (
-          <button
-            key={condition}
-            onClick={() => setSelectedCondition(condition)}
-            className={`px-4 py-2 font-medium text-sm rounded-t-lg transition-colors capitalize ${
-              selectedCondition === condition
-                ? 'bg-primary/10 text-primary border-b-2 border-primary'
-                : 'text-muted-foreground hover:bg-accent'
-            }`}
-          >
-            {condition} Disease
-          </button>
-        ))}
-      </div>
-
-      <Card className="border-border">
-        <CardHeader>
-          <CardTitle className="capitalize">{selectedCondition} Risk Projection (12 Months)</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-[400px] w-full mt-4">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart
-                data={data}
-                margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
-              >
-                <CartesianGrid strokeDasharray="3 3" strokeOpacity={0.2} vertical={false} />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fill: 'currentColor', opacity: 0.5 }} 
-                  dy={10} 
-                />
-                <YAxis 
-                  domain={[0, 100]} 
-                  axisLine={false} 
-                  tickLine={false}
-                  tick={{ fill: 'currentColor', opacity: 0.5 }}
-                  dx={-10}
-                />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'hsl(var(--card))', 
-                    borderColor: 'hsl(var(--border))',
-                    borderRadius: '8px', 
-                    boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)'
-                  }} 
-                />
-                <Legend iconType="circle" />
-                <Line 
-                  type="monotone" 
-                  dataKey={selectedCondition.charAt(0).toUpperCase() + selectedCondition.slice(1)} 
-                  stroke={conditionColors[selectedCondition]} 
-                  strokeWidth={4} 
-                  dot={{ r: 6, fill: conditionColors[selectedCondition], strokeWidth: 2, stroke: 'hsl(var(--card))' }} 
-                  activeDot={{ r: 8, stroke: 'hsl(var(--primary))', strokeWidth: 2 }} 
-                />
-              </LineChart>
-            </ResponsiveContainer>
+      <Card className="border-border max-w-2xl mx-auto">
+        <CardHeader className="flex flex-row items-center gap-3 bg-accent/30 rounded-t-xl">
+          <div className="p-2 bg-primary/10 rounded-lg">
+            <TrendingUp className="w-6 h-6 text-primary" />
           </div>
-          
-          <div className="mt-8 bg-accent/20 p-4 rounded-lg flex items-start">
-            <div className="mr-4 mt-1 bg-background p-2 rounded-full shadow-sm">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-primary"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-1">Clinical Assumption</h4>
+          <CardTitle className="text-xl">Trajectory Forecasting Temporarily Disabled</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6 space-y-4">
+          <div className="flex items-start gap-3 p-4 rounded-lg bg-accent/20 border border-border">
+            <Clock className="w-5 h-5 text-muted-foreground mt-0.5 shrink-0" />
+            <div className="space-y-2">
+              <p className="text-sm font-medium">
+                Longitudinal forecasting requires a separate time-series model.
+              </p>
               <p className="text-sm text-muted-foreground leading-relaxed">
-                This projection assumes no significant changes in your current lifestyle and medical interventions. 
-                Implementing the care plan recommendations can alter this trajectory, promoting stability or reduction.
+                The current HealthTwin ML models are <strong>point-in-time cross-sectional</strong> models.
+                They produce a single estimate based on your current profile snapshot. They do not
+                forecast how risk will change over months or years.
+              </p>
+              <p className="text-sm text-muted-foreground leading-relaxed">
+                Displaying fabricated 3-month, 6-month or 12-month projections would misrepresent
+                the underlying models. This feature will be enabled once a longitudinal trajectory
+                model is trained and validated.
               </p>
             </div>
           </div>
+
+          <div className="p-4 rounded-lg border border-border">
+            <h4 className="text-sm font-semibold mb-2">What the current assessment does provide</h4>
+            <ul className="text-sm text-muted-foreground space-y-1 list-disc list-inside">
+              <li>Point-in-time risk estimates for heart disease, kidney disease and stroke</li>
+              <li>SHAP factor explanations showing what the model weighted</li>
+              <li>AI-generated care recommendations tied to your profile</li>
+              <li>Lab report analysis (when a PDF is uploaded)</li>
+            </ul>
+          </div>
+
+          <p className="text-xs text-muted-foreground/70 italic text-center">
+            Your current assessment results remain available on the Dashboard and Disease Risk
+            Assessment pages.
+          </p>
         </CardContent>
       </Card>
     </div>
